@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life @ VST – Vedam Innovation Lab</title>
+    <style>
+        /* CSS Reset & Variables */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #4f46e5;
+            --dark-bg: #0f172a;
+            --light-bg: #f8fafc;
+            --text-main: #334155;
+            --text-light: #64748b;
+        }
+
+        body {
+            color: var(--text-main);
+            background-color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Navbar */
+        navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--dark-bg);
+        }
+
+        .logo span {
+            color: #f97316;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-signup {
+            background-color: var(--primary-color);
+            color: white !important;
+            padding: 8px 18px;
+            border-radius: 6px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.7), rgba(15, 23, 42, 0.7)), url('https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            color: white;
+            text-align: center;
+            padding: 120px 20px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #cbd5e1;
+        }
+
+        .btn-primary {
+            background-color: #f97316;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #ea580c;
+        }
+
+        /* Section Layout Common Styles */
+        section {
+            padding: 80px 10%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: var(--dark-bg);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .zone-highlight {
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-bg);
+            margin-bottom: 30px;
+        }
+
+        /* Innovation Lab */
+        .innovation-lab {
+            background-color: var(--light-bg);
+        }
+
+        .lab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .lab-card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            font-weight: 600;
+            color: var(--dark-bg);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <navbar>
+        <div class="logo">
+            <span style="color:#f97316;">●</span> Vedam <span>School of Technology</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="https://www.vedam.org/">Home</a></li>
+            <li><a href="https://www.vedam.org/admission">Admissions</a></li>
+            <li><a href="#">Program & Fees</a></li>
+            <li><a href="https://www.vedam.org/placement">Placements</a></li>
+            <li><a href="https://www.vedam.org/seniors">Seek Your Seniors</a></li>
+            <li><a href="https://www.vedam.org/life">Life @ Vedam</a></li>
+            <li><a href="https://www.vedam.org/faqs">FAQs</a></li>
+            <li><a href="https://one.vedam.org/apply?utm_source=vedam_website&utm_medium=nav_bar&utm_campaign=vsat_early_registration" class="btn-signup">Sign Up</a></li>
+        </ul>
+    </navbar>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <h1>Life at Vedam School of Technology</h1>
+        <p>Make memories, learn, grow, and cherish every moment joyfully</p>
+        <a href="https://one.vedam.org/apply?utm_source=vedam_website&utm_medium=home_video&utm_campaign=vsat_early_registration" class="btn-primary">Apply Now</a>
+    </header>
+
+    <!-- Vedam Innovation Lab Section -->
+    <section class="innovation-lab">
+        <h2 class="section-title">Vedam Innovation Lab</h2>
+        <p class="section-subtitle">Vedam Innovation Lab is a cutting-edge incubator driving innovation in AR/VR, AI & ML, IoT, Robotics, and Drones.</p>
+        
+        <div class="zone-highlight">Vedam Innovation Zone: Engineering Tomorrow's Tech Today</div>
+
+        <div class="lab-grid">
+            <div class="lab-card">AI + Mac Zone</div>
+            <div class="lab-card">Robotics Zone</div>
+            <div class="lab-card">Drone Zone</div>
+            <div class="lab-card">VC Fund Linkage</div>
+            <div class="lab-card">Projects you'll Build</div>
+        </div>
+    </section>
+
+</body>
+</html>
