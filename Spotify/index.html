@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spotify Clone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #121212;
+      --bg-sidebar: #000000;
+      --bg-surface: #181818;
+      --bg-surface-hover: #282828;
+      --bg-player: #0f0f0f;
+      --text-main: #ffffff;
+      --text-muted: #b3b3b3;
+      --accent: #1ed760;
+      --accent-hover: #1fdf64;
+      --border-subtle: rgba(255, 255, 255, 0.1);
+      --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* App Layout */
+    .app-container {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 90px);
+      width: 100vw;
+      overflow: hidden;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background-color: var(--bg-sidebar);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px;
+      gap: 24px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border-subtle);
+      overflow-y: auto;
+    }
+
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 8px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-brand img {
+      height: 40px;
+      object-fit: contain;
+    }
+
+    .sidebar-menu {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-main);
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-decoration: none;
+      padding: 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .sidebar-item:hover {
+      color: var(--accent);
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.08);
+      margin: 4px 0;
+    }
+
+    .sidebar-section-header {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      padding: 0 8px;
+      margin-bottom: 12px;
+    }
+
+    .practice-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .practice-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4px 8px;
+    }
+
+    .practice-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .spec-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 4px 8px;
+      border-radius: 12px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .session-build-box {
+      margin-top: 8px;
+      padding: 0 8px;
+    }
+
+    .session-build-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .session-build-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Main Section */
+    .main-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 24px 32px 120px 32px;
+      background: linear-gradient(180deg, #222222 0%, var(--bg-base) 300px);
+    }
+
+    /* Header & Search */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-bottom: 32px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 12px 0;
+      background: transparent;
+    }
+
+    .search-container {
+      position: relative;
+      width: 340px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      fill: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px 12px 42px;
+      border-radius: 50px;
+      border: none;
+      background-color: #242424;
+      color: var(--text-main);
+      font-family: var(--font-family);
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      background-color: #2a2a2a;
+      box-shadow: 0 0 0 2px var(--text-main);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* Grid Section */
+    .section-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 24px;
+    }
+
+    /* Card */
+    .card {
+      background-color: var(--bg-surface);
+      border-radius: 8px;
+      padding: 16px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card:hover {
+      background-color: var(--bg-surface-hover);
+    }
+
+    .card.playing {
+      background-color: #252525;
+      border: 1px solid rgba(30, 215, 96, 0.3);
+    }
+
+    .card-cover-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-gradient-cover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 3rem;
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+
+    /* Top-Right Heart Circle Overlay on Thumbnail */
+    .card-heart-overlay {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.7);
+      transition: all 0.2s ease;
+      z-index: 5;
+    }
+
+    .card-heart-overlay:hover {
+      transform: scale(1.1);
+      background-color: rgba(0, 0, 0, 0.6);
+      color: #ffffff;
+    }
+
+    .card-heart-overlay.liked {
+      color: var(--accent);
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .card-heart-overlay svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .card-play-btn {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+      border: none;
+      cursor: pointer;
+      z-index: 4;
+    }
+
+    .card:hover .card-play-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-play-btn:hover {
+      transform: scale(1.06);
+      background-color: var(--accent-hover);
+    }
+
+    .card-play-btn svg {
+      fill: #000;
+      width: 20px;
+      height: 20px;
+      margin-left: 2px;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-artist {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .like-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .like-btn:hover {
+      color: var(--text-main);
+      transform: scale(1.15);
+    }
+
+    .like-btn.liked {
+      color: var(--accent);
+    }
+
+    .like-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    /* Player Bar */
+    .player-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 90px;
+      background-color: var(--bg-player);
+      border-top: 1px solid var(--border-subtle);
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 100;
+    }
+
+    /* Player Left */
+    .player-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 180px;
+    }
+
+    .player-cover-wrapper {
+      width: 56px;
+      height: 56px;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .player-gradient-cover {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      color: #ffffff;
+    }
+
+    .player-info {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .player-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-artist {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Player Center */
+    .player-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      max-width: 720px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .control-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .control-btn:hover {
+      color: var(--text-main);
+    }
+
+    .control-btn.play-pause-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--text-main);
+      color: #000;
+    }
+
+    .control-btn.play-pause-btn:hover {
+      transform: scale(1.06);
+      background-color: #ffffff;
+    }
+
+    .control-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .control-btn.play-pause-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .progress-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .time-stamp {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      min-width: 40px;
+      text-align: center;
+    }
+
+    /* Custom Slider Range styling */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    input[type="range"]:focus {
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-runnable-track {
+      background: #4d4d4d;
+      border-radius: 4px;
+      height: 4px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      margin-top: -4px;
+      background-color: var(--text-main);
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .progress-container:hover input[type="range"]::-webkit-slider-thumb,
+    .player-right:hover input[type="range"]::-webkit-slider-thumb {
+      opacity: 1;
+    }
+
+    .progress-container:hover input[type="range"]::-webkit-slider-runnable-track,
+    .player-right:hover input[type="range"]::-webkit-slider-runnable-track {
+      background: var(--accent);
+    }
+
+    /* Player Right */
+    .player-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+
+    .volume-icon {
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+    }
+
+    .volume-icon svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .volume-slider {
+      width: 100px;
+    }
+
+    /* Empty state */
+    .empty-search {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px;
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Left Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2023/05/Spotify_Primary_Logo_RGB_Green.png" alt="Spotify Logo">
+      </div>
+
+      <nav class="sidebar-menu">
+        <a class="sidebar-item" href="#">
+          <span>🏠</span> Home
+        </a>
+      </nav>
+
+      <div class="sidebar-divider"></div>
+
+      <div>
+        <div class="sidebar-section-header">PRACTICE — SPEC THESE NEXT</div>
+        <div class="practice-list">
+          <div class="practice-row">
+            <span class="practice-label"><span>❤️</span> Liked Songs view</span>
+            <span class="spec-badge">SPEC IT</span>
+          </div>
+          <div class="practice-row">
+            <span class="practice-label"><span>🕒</span> Recently played</span>
+            <span class="spec-badge">SPEC IT</span>
+          </div>
+          <div class="practice-row">
+            <span class="practice-label"><span>≡</span> Play queue</span>
+            <span class="spec-badge">SPEC IT</span>
+          </div>
+          <div class="practice-row">
+            <span class="practice-label"><span>🌓</span> Light / dark theme</span>
+            <span class="spec-badge">SPEC IT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-divider"></div>
+
+      <div class="session-build-box">
+        <div class="session-build-title">SESSION BUILD</div>
+        <div class="session-build-desc">
+          A spec-driven demo — one file, no backend. Everything you see was written down first.
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-section">
+      <!-- Header -->
+      <header class="header">
+        <div class="search-container">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24">
+            <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+          </svg>
+          <input type="text" id="searchInput" class="search-input" placeholder="What do you want to listen to?">
+        </div>
+      </header>
+
+      <!-- Library Grid Header -->
+      <h2 class="section-title">Tracks</h2>
+      
+      <!-- Grid -->
+      <div class="grid-container" id="gridContainer">
+        <!-- Rendered dynamically -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Player Bar -->
+  <div class="player-bar">
+    <!-- Player Left -->
+    <div class="player-left">
+      <div class="player-cover-wrapper" id="playerCoverWrapper">
+        <div class="player-gradient-cover" style="background: linear-gradient(135deg, #333, #555);">?</div>
+      </div>
+      <div class="player-info">
+        <div class="player-title" id="playerTitle">Select a track</div>
+        <div class="player-artist" id="playerArtist">—</div>
+      </div>
+      <button class="like-btn" id="playerLikeBtn" aria-label="Like Track">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Player Center -->
+    <div class="player-center">
+      <div class="player-controls">
+        <button class="control-btn" id="prevBtn" aria-label="Previous Track">
+          <svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+        </button>
+        <button class="control-btn play-pause-btn" id="playPauseBtn" aria-label="Play or Pause">
+          <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="pauseIcon" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button class="control-btn" id="nextBtn" aria-label="Next Track">
+          <svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>
+        </button>
+      </div>
+
+      <div class="progress-container">
+        <span class="time-stamp" id="currentTime">0:00</span>
+        <input type="range" id="seekBar" value="0" min="0" max="100" step="0.1">
+        <span class="time-stamp" id="totalDuration">0:00</span>
+      </div>
+    </div>
+
+    <!-- Player Right -->
+    <div class="player-right">
+      <div class="volume-icon">
+        <svg viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+      </div>
+      <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="0.7">
+    </div>
+  </div>
+
+  <!-- Audio Engine -->
+  <audio id="audioEngine"></audio>
+
+  <script>
+    // Hardcoded tracks based on Tracks.md
+    const TRACKS = [
+      {
+        id: "track-01",
+        title: "Midnight Signal",
+        artist: "The Nocturnes",
+        duration: "6:13",
+        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        coverFile: "cover-01.jpg",
+        gradient: "linear-gradient(135deg, #2e7d32, #1b5e20)"
+      },
+      {
+        id: "track-02",
+        title: "Paper Planes",
+        artist: "Kite Season",
+        duration: "6:07",
+        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+        coverFile: "cover-02.jpg",
+        gradient: "linear-gradient(135deg, #4caf50, #2e7d32)"
+      },
+      {
+        id: "track-03",
+        title: "Neon Harbor",
+        artist: "Violet Static",
+        duration: "6:20",
+        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+        coverFile: "cover-03.jpg",
+        gradient: "linear-gradient(135deg, #81c784, #388e3c)"
+      },
+      {
+        id: "track-04",
+        title: "Slow Tide",
+        artist: "Marlow Bay",
+        duration: "6:32",
+        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+        coverFile: "cover-04.jpg",
+        gradient: "linear-gradient(135deg, #1b5e20, #43a047)"
+      },
+      {
+        id: "track-05",
+        title: "Copper Sky",
+        artist: "Ada & the Owls",
+        duration: "6:55",
+        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+        coverFile: "cover-05.jpg",
+        gradient: "linear-gradient(135deg, #388e3c, #1b5e20)"
+      },
+      {
+        id: "track-06",
+        title: "Little Machines",
+        artist: "Foxglove",
+        duration: "4:59",
+        audioUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+        coverFile: "cover-06.jpg",
+        gradient: "linear-gradient(135deg, #43a047, #2e7d32)"
+      }
+    ];
+
+    // State Variables
+    let currentTrackIndex = -1;
+    let isPlaying = false;
+    let likedTrackIds = new Set();
+    let filteredTracks = [...TRACKS];
+
+    // DOM Elements
+    const gridContainer = document.getElementById('gridContainer');
+    const searchInput = document.getElementById('searchInput');
+    const audioEngine = document.getElementById('audioEngine');
+    
+    // Player Elements
+    const playerCoverWrapper = document.getElementById('playerCoverWrapper');
+    const playerTitle = document.getElementById('playerTitle');
+    const playerArtist = document.getElementById('playerArtist');
+    const playerLikeBtn = document.getElementById('playerLikeBtn');
+    
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playIcon = document.getElementById('playIcon');
+    const pauseIcon = document.getElementById('pauseIcon');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    
+    const currentTimeEl = document.getElementById('currentTime');
+    const totalDurationEl = document.getElementById('totalDuration');
+    const seekBar = document.getElementById('seekBar');
+    const volumeSlider = document.getElementById('volumeSlider');
+
+    // Init App
+    function init() {
+      loadLikedState();
+      renderGrid(TRACKS);
+      setupEventListeners();
+    }
+
+    // Load Liked Tracks from localStorage (REQ-12)
+    function loadLikedState() {
+      try {
+        const stored = localStorage.getItem('spotify_liked_tracks');
+        if (stored) {
+          const arr = JSON.parse(stored);
+          likedTrackIds = new Set(arr);
+        }
+      } catch (e) {
+        console.error("Failed to load liked tracks from localStorage", e);
+      }
+    }
+
+    // Save Liked Tracks to localStorage (REQ-11)
+    function saveLikedState() {
+      try {
+        localStorage.setItem('spotify_liked_tracks', JSON.stringify(Array.from(likedTrackIds)));
+      } catch (e) {
+        console.error("Failed to save liked tracks to localStorage", e);
+      }
+    }
+
+    // Toggle Liked Track
+    function toggleLike(trackId, e) {
+      if (e) e.stopPropagation();
+      if (likedTrackIds.has(trackId)) {
+        likedTrackIds.delete(trackId);
+      } else {
+        likedTrackIds.add(trackId);
+      }
+      saveLikedState();
+      updateLikedUI();
+    }
+
+    // Update Liked UI elements across grid overlays and player bar
+    function updateLikedUI() {
+      document.querySelectorAll('.card').forEach(card => {
+        const id = card.dataset.id;
+        const heartOverlay = card.querySelector('.card-heart-overlay');
+        if (heartOverlay) {
+          if (likedTrackIds.has(id)) {
+            heartOverlay.classList.add('liked');
+          } else {
+            heartOverlay.classList.remove('liked');
+          }
+        }
+      });
+
+      if (currentTrackIndex >= 0) {
+        const currentTrack = TRACKS[currentTrackIndex];
+        if (likedTrackIds.has(currentTrack.id)) {
+          playerLikeBtn.classList.add('liked');
+        } else {
+          playerLikeBtn.classList.remove('liked');
+        }
+      }
+    }
+
+    // Render Grid (REQ-1, REQ-10, REQ-15)
+    function renderGrid(tracks) {
+      filteredTracks = tracks;
+      gridContainer.innerHTML = '';
+
+      if (tracks.length === 0) {
+        gridContainer.innerHTML = `<div class="empty-search">No tracks found matching your search.</div>`;
+        return;
+      }
+
+      tracks.forEach((track) => {
+        const isCurrent = currentTrackIndex >= 0 && TRACKS[currentTrackIndex].id === track.id;
+        const isLiked = likedTrackIds.has(track.id);
+        const initial = track.title.charAt(0).toUpperCase();
+
+        const card = document.createElement('div');
+        card.className = `card ${isCurrent ? 'playing' : ''}`;
+        card.dataset.id = track.id;
+
+        card.innerHTML = `
+          <div class="card-cover-wrapper">
+            <div class="card-gradient-cover" style="background: ${track.gradient};">
+              ${initial}
+            </div>
+            <button class="card-heart-overlay ${isLiked ? 'liked' : ''}" aria-label="Like Track">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </button>
+            <button class="card-play-btn" aria-label="Play track">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+          </div>
+          <div class="card-title">${escapeHtml(track.title)}</div>
+          <div class="card-artist">${escapeHtml(track.artist)}</div>
+        `;
+
+        // Card Click Handler (REQ-2)
+        card.addEventListener('click', () => {
+          const globalIdx = TRACKS.findIndex(t => t.id === track.id);
+          playTrack(globalIdx);
+        });
+
+        // Top-Right Heart Circle Overlay Click Handler (REQ-15)
+        const heartOverlay = card.querySelector('.card-heart-overlay');
+        heartOverlay.addEventListener('click', (e) => {
+          toggleLike(track.id, e);
+        });
+
+        gridContainer.appendChild(card);
+      });
+    }
+
+    // Play Track (REQ-2)
+    function playTrack(index) {
+      if (index < 0 || index >= TRACKS.length) return;
+
+      currentTrackIndex = index;
+      const track = TRACKS[currentTrackIndex];
+      const initial = track.title.charAt(0).toUpperCase();
+
+      audioEngine.src = track.audioUrl;
+      audioEngine.play().then(() => {
+        isPlaying = true;
+        updatePlayPauseUI();
+      }).catch(err => {
+        console.error("Audio playback error:", err);
+      });
+
+      // Update Player Metadata
+      playerTitle.textContent = track.title;
+      playerArtist.textContent = track.artist;
+      
+      playerCoverWrapper.innerHTML = `
+        <div class="player-gradient-cover" style="background: ${track.gradient};">
+          ${initial}
+        </div>
+      `;
+
+      if (likedTrackIds.has(track.id)) {
+        playerLikeBtn.classList.add('liked');
+      } else {
+        playerLikeBtn.classList.remove('liked');
+      }
+
+      // Update Active Card Highlights
+      renderGrid(filteredTracks);
+    }
+
+    // Update Play/Pause UI (REQ-3, REQ-4)
+    function updatePlayPauseUI() {
+      if (isPlaying) {
+        playIcon.style.display = 'none';
+        pauseIcon.style.display = 'block';
+      } else {
+        playIcon.style.display = 'block';
+        pauseIcon.style.display = 'none';
+      }
+    }
+
+    // Play Next Track (REQ-5, REQ-13)
+    function playNext() {
+      if (TRACKS.length === 0) return;
+      let nextIdx = currentTrackIndex + 1;
+      if (nextIdx >= TRACKS.length) nextIdx = 0;
+      playTrack(nextIdx);
+    }
+
+    // Play Previous Track (REQ-6)
+    function playPrev() {
+      if (TRACKS.length === 0) return;
+      let prevIdx = currentTrackIndex - 1;
+      if (prevIdx < 0) prevIdx = TRACKS.length - 1;
+      playTrack(prevIdx);
+    }
+
+    // Format Seconds to MM:SS
+    function formatTime(seconds) {
+      if (isNaN(seconds) || seconds === null) return "0:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    // Setup Event Listeners
+    function setupEventListeners() {
+      // Play/Pause Button (REQ-3, REQ-4)
+      playPauseBtn.addEventListener('click', () => {
+        if (currentTrackIndex === -1 && TRACKS.length > 0) {
+          playTrack(0);
+          return;
+        }
+        if (isPlaying) {
+          audioEngine.pause();
+          isPlaying = false;
+        } else {
+          audioEngine.play();
+          isPlaying = true;
+        }
+        updatePlayPauseUI();
+      });
+
+      // Prev & Next Buttons (REQ-5, REQ-6)
+      prevBtn.addEventListener('click', playPrev);
+      nextBtn.addEventListener('click', playNext);
+
+      // Player Like Button (REQ-11)
+      playerLikeBtn.addEventListener('click', () => {
+        if (currentTrackIndex >= 0) {
+          toggleLike(TRACKS[currentTrackIndex].id);
+        }
+      });
+
+      // Audio Time Update & Seek Bar (REQ-7)
+      audioEngine.addEventListener('timeupdate', () => {
+        if (!isNaN(audioEngine.duration) && audioEngine.duration > 0) {
+          const pct = (audioEngine.currentTime / audioEngine.duration) * 100;
+          seekBar.value = pct;
+          currentTimeEl.textContent = formatTime(audioEngine.currentTime);
+          totalDurationEl.textContent = formatTime(audioEngine.duration);
+        }
+      });
+
+      // Audio Loaded Metadata
+      audioEngine.addEventListener('loadedmetadata', () => {
+        totalDurationEl.textContent = formatTime(audioEngine.duration);
+      });
+
+      // Seek Bar Manual Scrubbing (REQ-8)
+      seekBar.addEventListener('input', () => {
+        if (!isNaN(audioEngine.duration) && audioEngine.duration > 0) {
+          const seekTo = (seekBar.value / 100) * audioEngine.duration;
+          audioEngine.currentTime = seekTo;
+        }
+      });
+
+      // Volume Slider Adjustment (REQ-9)
+      volumeSlider.addEventListener('input', () => {
+        audioEngine.volume = volumeSlider.value;
+      });
+
+      // Auto-play Next Track when Audio Ends (REQ-13)
+      audioEngine.addEventListener('ended', () => {
+        playNext();
+      });
+
+      // Live Search Input (REQ-10)
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        const matches = TRACKS.filter(t => 
+          t.title.toLowerCase().includes(query) || 
+          t.artist.toLowerCase().includes(query)
+        );
+        renderGrid(matches);
+      });
+    }
+
+    // Helper Utility
+    function escapeHtml(str) {
+      return str.replace(/[&<>"']/g, function(m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#039;'
+        }[m];
+      });
+    }
+
+    // Initialize Application
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
