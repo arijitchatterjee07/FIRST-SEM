@@ -264,7 +264,7 @@ body{
 }
 
 .javascript{
-    animation: fillfs 1s ease forwards;
+    animation: filljs 1s ease forwards;
 }
 
 .java{
@@ -281,4 +281,62 @@ body{
 
 .git-github{
     animation: fillgit 1s ease forwards;
+}
+
+.anime{
+    animation: fillanimation 1s ease forwards;
+}
+
+@keyframes fillhtmlcss {
+    0%{
+        width:0;
+    }
+    100%{
+        width:90%;
+    }
+}
+
+@keyframes filljs {
+    0%{
+        width:0;
+    }
+    100%{
+        width:90%;
+    }
+}
+
+@keyframes filljava {
+    0%{
+        width:0;
+    }
+    100%{
+        width:95%;
+    }
+}
+
+@keyframes fillpython {
+    0%{
+        width:0;
+    }
+    100%{
+        width:98%;
+    }
+}
+
+@keyframes fillsql {
+    0%{
+        width:0;
+    }
+    100%{
+        width:92%;
+    }
+}
+
+@keyframes fillgit {
+    0%{
+        width:0;
+    }
+    100%{
+        width:75%;
+    }
 }
