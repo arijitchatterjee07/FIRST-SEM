@@ -1,15 +1,15 @@
-// let a=[1,2,3,4,5];
-// for (let i=0;i<a.length;i++)
-// {
-//     console.log("index",i,"value",a[i]);
-// }
+ let a=[1,2,3,4,5];
+ for (let i=0;i<a.length;i++)
+ {
+     console.log("index",i,"value",a[i]);
+ }
 
-// a.push(100);
-// console.log("Array",a);
-// console.log("Length",a.length);
-// a.pop();
-// console.log("Array",a);
-// console.log("Length",a.length);
+ a.push(100);
+ console.log("Array",a);
+ console.log("Length",a.length);
+ a.pop();
+ console.log("Array",a);
+ console.log("Length",a.length);
 
 let arr = [3, 5, 6, 9, 3, 2, 4, 6, 9];
 console.log("Before:", arr);
