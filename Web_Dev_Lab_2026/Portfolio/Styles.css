@@ -438,3 +438,15 @@ body{
     color: gold;
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
+
+.contacts-card a{
+    /* color:aliceblue; */
+    color: gold;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    line-height: 1.7;
+}
+
+.contacts-container{
+    text-align: center;
+}
