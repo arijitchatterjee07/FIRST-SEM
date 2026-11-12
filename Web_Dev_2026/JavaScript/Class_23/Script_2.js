@@ -16,7 +16,6 @@ let cap=
 }
 
 console.log('City',cap.address.city);
-
 console.log("Last Enemy",cap.enemies[cap.enemies.length-2]);
 
 cap.greet();
