@@ -1,6 +1,5 @@
 let str = prompt();
 let arr = [];
-
 if (str) 
     {
     let wordArr = str.trim().split(" ");
