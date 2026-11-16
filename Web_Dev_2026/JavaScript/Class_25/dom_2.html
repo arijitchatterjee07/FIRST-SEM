@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h3 id="greetings">Original Heading</h3>
+    <p>I'm an old Para. pls :/</p>
+    <script>
+      let greetele = document.querySelector("#greetings");
+      greetele.textContent="I have been MODIFIED";
+
+      let playdiv = document.createElement("div");
+      playdiv.textContent = "Play Play Play Play Play";
+
+      let bodyEle = document.querySelector("body");
+      bodyEle.appendChild(playdiv);
+
+      let p = document.querySelector("p");
+      p.remove();
+    </script>
+  </body>
+</html>
