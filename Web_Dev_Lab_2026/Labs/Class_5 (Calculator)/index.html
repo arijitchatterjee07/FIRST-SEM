@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <script src="./script.js" defer></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      "
+    >
+      <h1>Calculator</h1>
+      <div>
+        <label for="inputOne">First Input</label>
+        <input
+          type="number"
+          required
+          id="inputOne"
+          placeholder="Enter Number One"
+        />
+      </div>
+      <div>
+        <label for="inputTwo">Second Input</label>
+        <input
+          type="number"
+          required
+          id="inputTwo"
+          placeholder="Enter Number Two"
+        />
+      </div>
+      <div>
+        <button style="padding: 7px" id="add">+</button>
+        <button style="padding: 7px" id="sub">-</button>
+        <button style="padding: 7px" id="mul">*</button>
+        <button style="padding: 7px" id="div">/</button>
+      </div>
+      <div>
+        <button style="padding: 7px" id="calculate">Calculate</button>
+        <p>Output is : <span id="output"></span></p>
+      </div>
+    </div>
+  </body>
+</html>
