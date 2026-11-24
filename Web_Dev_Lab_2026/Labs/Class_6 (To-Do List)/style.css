@@ -1,4 +1,111 @@
-*{
-    border: 0px;
-    padding: 0px;
-};
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    font-family: Arial, sans-serif;
+    background-color: #eef2ff;
+    color: #1e293b;
+    padding: 24px;
+}
+
+#root
+{
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#inputDiv
+{
+    background-color: #ffffff;
+    padding: 20px;
+    border: 1px solid #c7d2fe;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+#inputDiv > div
+{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+label
+{
+    font-size: 14px;
+    font-weight: bold;
+    color: #334155;
+}
+
+input
+{
+    padding: 8px 10px;
+    font-size: 14px;
+    background-color: #f8fafc;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+#addTodo
+{
+    padding: 9px 14px;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #4f46e5;
+    color: #ffffff;
+}
+
+#count
+{
+    background-color: #e0e7ff;
+    color: #3730a3;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 14px;
+}
+
+#listTodo
+{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.todo-card
+{
+    background-color: #ffffff;
+    padding: 16px;
+    border: 1px solid #cbd5e1;
+    border-left: 5px solid #4f46e5;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.todo-card p:first-child
+{
+    font-size: 17px;
+    font-weight: bold;
+    color: #0f172a;
+}
+
+.done-title
+{
+    text-decoration: line-through;
+    color: #64748b;
+}
