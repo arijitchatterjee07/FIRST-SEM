@@ -106,7 +106,7 @@
         let top2 = op2.value;
         let top3 = op3.value;
         let top4 = op4.value;
-        if (!tque || !top1 || !top2 || !top3 || !top4) {
+        if (tque.value == "" || top1.value == "" || top2.value == "" || top3.value == "" || top4.value == "") {
           alert("work in progress");
         }
         quiz.push({ tque, top1, top2, top3, top4 });
@@ -122,7 +122,7 @@
         for (let i = 0; i < quiz.length; i++) {
           let div = document.createElement("div");
           div.className = "question-card";
-          
+
           let qText = document.createElement("h3");
           let p1 = document.createElement("p");
           let p2 = document.createElement("p");
