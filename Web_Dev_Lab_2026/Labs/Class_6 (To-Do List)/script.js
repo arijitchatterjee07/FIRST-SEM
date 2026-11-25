@@ -37,8 +37,10 @@ function renderElement() {
         descriptionParaElement.textContent = displayDescription;
         dateParaElement.textContent = displayDate;
         let removeBtnElement = document.createElement("button");
-        removeBtnElement.textContent = "remove"
+        removeBtnElement.textContent = "remove";
         removeBtnElement.addEventListener('click', function () {
+            todoList.splice(i, 1);
+            renderElement();
         });
         divElement.append(titleParaElement, descriptionParaElement, dateParaElement,
             removeBtnElement);
