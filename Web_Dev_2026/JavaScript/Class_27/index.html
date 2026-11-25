@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Creator</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      h1 {
+        color: #2c3e50;
+      }
+
+      .input-area {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 16px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 24px;
+      }
+
+      .input-area input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      #addBtn {
+        padding: 10px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 15px;
+      }
+
+      #addBtn:hover {
+        background-color: #2980b9;
+      }
+
+      .question-card {
+        background: #f9f9f9;
+        border-left: 4px solid #3498db;
+        padding: 12px 16px;
+        margin-bottom: 12px;
+        border-radius: 6px;
+      }
+
+      .question-card h3 {
+        margin: 0 0 8px;
+      }
+
+      .question-card ul {
+        margin: 0 0 8px;
+        padding-left: 20px;
+      }
+
+      .delete-btn {
+        background: #e74c3c;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .delete-btn:hover {
+        background: #c0392b;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>📝 New Quiz Creator</h1>
+    <div class="input-area">
+      <input id="questionInput" type="text" placeholder="Enter question" />
+      <input id="optionA" type="text" placeholder="Option A" />
+      <input id="optionB" type="text" placeholder="Option B" />
+      <input id="optionC" type="text" placeholder="Option C" />
+      <input id="optionD" type="text" placeholder="Option D" />
+      <button id="addBtn">Add Question</button>
+    </div>
+
+    <div id="quizList">
+      <div></div>
+    </div>
+
+    <script>
+      let addBtn = document.querySelector("#addBtn");
+      let que = document.getElementById("questionInput");
+      let op1 = document.getElementById("questionInput");
+      let op2 = document.getElementById("questionInput");
+      let op3 = document.getElementById("questionInput");
+      let op4 = document.getElementById("questionInput");
+      let quiz = [];
+      addBtn.addEventListener("click", function () {
+        let tque = que.value;
+        let top1 = op1.value;
+        let top2 = op2.value;
+        let top3 = op3.value;
+        let top4 = op4.value;
+        if (!tque || !top1 || !top2 || !top3 || !top4) {
+          alert("work in progress");
+        }
+        quiz.push({ tque, top1, top2, top3, top4 });
+        tque.value = "";
+        top1.value = "";
+        top2.value = "";
+        top3.value = "";
+        top4.value = "";
+        renderQuiz();
+      });
+      function renderQuiz() {
+        quizList.innerHTML = "";
+        for (let i = 0; i < quiz.length; i++) {
+          let div = document.createElement("div");
+          div.className = "question-card";
+          
+          let qText = document.createElement("h3");
+          let p1 = document.createElement("p");
+          let p2 = document.createElement("p");
+          let p3 = document.createElement("p");
+          let p4 = document.createElement("p");
+
+          let displayQue = quiz[i].tque;
+          let displayOp1 = quiz[i].top1;
+          let displayOp2 = quiz[i].top2;
+          let displayOp3 = quiz[i].top3;
+          let displayOp4 = quiz[i].top4;
+
+          qText.textContent = displayQue;
+          p1.textContent = displayOp1;
+          p2.textContent = displayOp2;
+          p3.textContent = displayOp3;
+          p4.textContent = displayOp4;
+
+          let deleteBtn = document.createElement("button");
+          deleteBtn.textContent = "Delete";
+          deleteBtn.className = "delete-btn";
+          deleteBtn.addEventListener("click", function () {
+            quiz.splice(i, 1);
+            renderQuiz();
+          });
+
+          div.append(qText, p1, p2, p3, p4, deleteBtn);
+          quizList.appendChild(div);
+        }
+      }
+    </script>
+  </body>
+</html>
